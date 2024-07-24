@@ -38,8 +38,8 @@ class DashboardRankController extends Controller
     ]);
   }
 
-public function show(CriteriaAnalysis $criteriaAnalysis)
-{
+  public function show(CriteriaAnalysis $criteriaAnalysis)
+  {
     $criteriaAnalysis->load('preventiveValues');
 
     $criterias = CriteriaAnalysisDetail::getSelectedCriterias($criteriaAnalysis->id);
@@ -55,44 +55,44 @@ public function show(CriteriaAnalysis $criteriaAnalysis)
     $usedIdsFix = [];
 
     foreach ($usedIds as $usedId) {
-        array_push($usedIdsFix, $usedId->tourism_object_id);
+      array_push($usedIdsFix, $usedId->tourism_object_id);
     }
 
     $alternatives = TourismObject::whereIn('id', $usedIdsFix)
-        ->with('alternatives')
-        ->get();
+      ->with('alternatives')
+      ->get();
 
     $tourismObjects = TourismObject::whereNotIn('id', $usedIdsFix)->get();
 
     // Lakukan pengurangan nilai alternatif dengan bobot kriteria menggunakan PHP murni
     foreach ($alternatives as $tourismObject) {
-        foreach ($tourismObject->alternatives as $alternative) {
-            if ($alternative->alternatives) { // Periksa apakah objek alternatif tidak null
-                foreach ($criterias as $criteria) {
-                    $altValue = $alternative->alternatives->firstWhere('criteria_id', $criteria->id);
-                    if ($altValue) { // Periksa apakah nilai alternatif ditemukan
-                        $criteriaWeight = $criteria->pivot->weight ?? 0; // Bobot kriteria dari pivot table
-                        // Kurangi nilai alternatif dengan bobot kriteria
-                        $altValue->alternative_value -= $criteriaWeight;
-                    }
-                }
+      foreach ($tourismObject->alternatives as $alternative) {
+        if ($alternative->alternatives) { // Periksa apakah objek alternatif tidak null
+          foreach ($criterias as $criteria) {
+            $altValue = $alternative->alternatives->firstWhere('criteria_id', $criteria->id);
+            if ($altValue) { // Periksa apakah nilai alternatif ditemukan
+              $criteriaWeight = $criteria->pivot->weight ?? 0; // Bobot kriteria dari pivot table
+              // Kurangi nilai alternatif dengan bobot kriteria
+              $altValue->alternative_value -= $criteriaWeight;
             }
+          }
         }
+      }
     }
 
     return view('dashboard.final-rank.rank', [
-        'title'          => 'Final Ranking',
-        'dividers'       => $dividers,
-        'alternatives'   => $alternatives,
-        'criterias'      => Criteria::all(),
-        'tourism_objects'=> $tourismObjects,
-        'pv'             => $pv  // Menambahkan variabel pv ke view
+      'title'          => 'Final Ranking',
+      'dividers'       => $dividers,
+      'alternatives'   => $alternatives,
+      'criterias'      => Criteria::all(),
+      'tourism_objects' => $tourismObjects,
+      'pv'             => $pv  // Menambahkan variabel pv ke view
     ]);
-}
+  }
 
-  
-  
-  
+
+
+
 
   private function _countNormalization($dividers, $alternatives)
   {
@@ -110,11 +110,11 @@ public function show(CriteriaAnalysis $criteriaAnalysis)
 
         $attribute = $dividers[$key]['attribute'];
 
-        if ($attribute === 'BENEFIT' && $val != 0) {
+        if ($attribute === 'CORE FACTOR' && $val != 0) {
           $result = substr(floatval($val / $dividers[$key]['divider_value']), 0, 11);
         }
 
-        if ($attribute === 'COST' && $val != 0) {
+        if ($attribute === 'SECONDARY FACTOR' && $val != 0) {
           $result = substr(floatval($dividers[$key]['divider_value'] / $val), 0, 11);
         }
 

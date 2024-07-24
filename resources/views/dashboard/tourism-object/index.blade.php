@@ -22,13 +22,13 @@
 
                     <!-- table  -->
                     <div class="table-responsive">
-                        <table class="table table-striped text-nowrap mb-0">
+                        <table class="table table-striped table-bordered text-nowrap mb-0">
                             <thead class="table table-success">
                                 <tr>
-                                    <th scope="col" class="text-center">#</th>
-                                    <th scope="col" class="text-center">Nama</th>
-                                    <th scope="col" class="text-center">Address</th>
-                                    <th scope="col" class="text-center">Action</th>
+                                    <th scope="col" class="text-center fw-bold">#</th>
+                                    <th scope="col" class="text-center fw-bold">Nama</th>
+                                    <th scope="col" class="text-center fw-bold">Address</th>
+                                    <th scope="col" class="text-center fw-bold">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,7 +61,6 @@
                                                         return confirm('Apakah Anda yakin ingin menghapus item ini?');
                                                     }
                                                 </script>
-
                                             </td>
                                         </tr>
                                     @endforeach

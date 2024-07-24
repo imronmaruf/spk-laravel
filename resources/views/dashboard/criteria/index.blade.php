@@ -53,10 +53,6 @@
                                                         <span data-feather="x-circle"></span>
                                                     </button>
                                                 </form>
-
-
-
-
                                             </td>
                                         </tr>
                                     @endforeach

@@ -4,9 +4,9 @@
         <a id="nav-toggle" href="#"><i data-feather="menu" class="nav-icon me-2 icon-xs"></i></a>
         <div class="ms-lg-3 d-none d-md-none d-lg-block">
             <!-- Form -->
-            <form class="d-flex align-items-center">
+            {{-- <form class="d-flex align-items-center">
                 <input type="search" class="form-control" placeholder="Search" />
-            </form>
+            </form> --}}
         </div>
         <!--Navbar nav -->
         <ul class="navbar-nav navbar-right-wrap ms-auto d-flex nav-top-wrap">
@@ -32,9 +32,9 @@
                             <form action="/signout" method="POST" class="d-inline">
                                 @csrf
                                 <span role="button" class="nav-link px-3 btnSignOut">
-                                  <button>Logout</button>
+                                    <button>Logout</button>
                                 </span>
-                              </form>
+                            </form>
                         </li>
                     </ul>
 
